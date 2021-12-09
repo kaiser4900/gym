@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+    </head>
+<body>
+<div class="main">
+ 
+    {% for data in object_list %}
+ 
+    {{ data.title }}<br/>
+    
+    <button  onclick="delete_view('{{data.id}}')">Eliminar </button>
+    <hr/>
+    {% endfor %}
+</div>
+
+{% block scripts %}
+
+
+<script type="text/javascript">
+    
+    function getCookie(name){
+        let cookieValue = null;
+        if(document.cookie && document.cookie !== ''){
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++){
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0,name.length +1) === (name + '=')){
+                    cookieValue = decodeURIComponent(cookie.substring(name.length +1));
+                    break;
+                }
+            }
+        }
+        return cookieValue; 
+    }
+
+    function delete_view(id) {
+        console.log(id);
+        fetch("/polls/delete/"+id,{
+            method: "POST",
+            headers: {"X-CSRFToken": getCookie('csrftoken'),"X-Requested-With": "XMLHttpRequest"}
+        })
+        .then(
+            console.log("Eliminado :D")
+        )
+        /*$.ajax({
+            type:'POST',
+            url: 'http://127.0.0.1:8000/polls/delete/',
+            data: {id:id},
+        });*/
+    }
+    var d = new Date();
+    document.write('Fecha: '+d.getDate(),'<br>Dia de la semana: '+d.getDay(),'<br>Mes (0 al 11): '+d.getMonth(),'<br>Año: '+d.getFullYear(),'<br>Hora: '+d.getHours(),'<br>Hora UTC: '+d.getUTCHours(),'<br>Minutos: '+d.getMinutes(),'<br>Segundos: '+d.getSeconds());
+</script>
+{% endblock scripts %}
+
+</body>
+</html>

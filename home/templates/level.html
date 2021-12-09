@@ -1,0 +1,49 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} level {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+      <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+
+              <form role="form" method="POST" action="/home/level/">{% csrf_token%}
+              
+                <div class="card-header">
+                  <h5 class="title">Registrar</h5>
+
+                  <h6 class="card-category">
+                      Introduzca el nuevo nivel
+                  </h6>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Nivel</label>
+                          <input class="form-control" id="level_name" name="level_name" required="" type="text" value="">
+                        </div>
+                      </div>
+                    </div>
+                    
+                </div>
+                <div class="card-footer">
+                  <button type="submit" name="register" class="btn btn-fill btn-primary">Registrar</button>
+                  &nbsp; &nbsp;
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+      </div>
+
+
+{% endblock content %}
+

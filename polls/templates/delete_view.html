@@ -1,0 +1,8 @@
+<div class="main">
+    <form method="POST">
+        {% csrf_token %}
+        Quieres eliminar este elemento?
+        <input type="submit" value="Yes" />
+        <a href="/polls/list/">Cancel </a>
+    </form>
+</div>
