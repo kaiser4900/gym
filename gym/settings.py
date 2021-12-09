@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-t)acyd=$owgs-5s!_g)8_c-xcf*=tu8_e(p5$v@9y!lmmxc6#t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['kaiseraz.pythonanywhere.com']
 
 
 # Application definition
@@ -81,13 +81,13 @@ WSGI_APPLICATION = 'gym.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'db_gym',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kaiserAZ$db_gym',
+        'USER': 'kaiserAZ',
+        'PASSWORD': 'lokilokito4900',
+        'HOST': 'kaiserAZ.mysql.pythonanywhere-services.com',
         'PORT': '3306',
-    }  
+    }
 }
 
 
@@ -129,12 +129,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/home/kaiserAZ/gym/static'
 
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

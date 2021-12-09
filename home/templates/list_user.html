@@ -430,7 +430,7 @@
         aux = '<tr><th>Foto</th><th>Nombre</th><th>Apellido</th><th>DNI</th><th>Peso</th></tr>';
         $("#updateTraining").html('<thead>'+aux+'</thead>'+ "<tbody>");
         $.each(data,function(key, registro) {
-            element = '<tr><td class="text-center"><div class="photo"><img src="http://127.0.0.1:8000/'+registro.image+'" alt="Table image"></div></td><td>' + registro.nombres + '</td><td>' + registro.apellidos+ '</td><td>'+registro.dni+'</td><td>'+registro.peso+'<td class="text-right"></td></tr>';
+            element = '<tr><td class="text-center"><div class="photo"><img src="http://kaiseraz.pythonanywhere.com/'+registro.image+'" alt="Table image"></div></td><td>' + registro.nombres + '</td><td>' + registro.apellidos+ '</td><td>'+registro.dni+'</td><td>'+registro.peso+'<td class="text-right"></td></tr>';
 
             $("#updateTraining").append(element);
         });
