@@ -38,10 +38,10 @@ class Usuario(models.Model):
         return self.nombres+ " " + self.apellidos
 
 class Entrenado(models.Model):
-    id_usuario = models.FileField.unique=True
-    fecha = models.DateTimeField(auto_now_add=True)
+    id_usuario = models.ForeignKey(User,on_delete=models.CASCADE)
+    fecha = models.DateField(auto_now_add=True)
     entrenado = models.BooleanField(default=False)
 
 
     def __str__(self) -> str:
-        return str(int(self.id_usuario)) + " "+ str(self.fecha)+' '+str(self.entrenado)
+        return str(self.id_usuario) + " "+ str(self.fecha)+' '+str(self.entrenado)

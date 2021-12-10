@@ -36,9 +36,10 @@
                       
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id = "padre">
                     {% for object in object_list %}
-                    <tr id="{{ object.id }}">
+                    <tr id="{{ object.id }}tr">
+
                       <th> <img src="http://127.0.0.1:8000{{ object.image.url }}" width="50" height="60" alt="Avatar"></th>
                       <th>{{ object.first_name }}</th>
                       <th>{{ object.last_name }}</th>
@@ -191,8 +192,9 @@
   function deleteUser(id){
     const idTr = ""+id+"tr";
     const trRow = document.getElementById(idTr);
+    let id_TB = document.getElementById("padre");
     const csrftoken = getCookie('csrftoken');
-    let url = "/home/user/delete/";1
+    let url = "/home/user/delete/";
     fetch(url, {
       method: "POST",
       body: JSON.stringify({pk: id}),
@@ -210,9 +212,7 @@
       function(data) {
         array_data = data.msg;
         if(array_data == "OK"){
-          location.reload();
-          padre = trRow.parentNode;
-		      padre.removeChild(trRow);
+		      id_TB.removeChild(trRow);
         };
       }
     )

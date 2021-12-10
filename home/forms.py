@@ -2,8 +2,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.db import transaction
 from django.forms import widgets
-from .models import User,Usuario,Niveles
-
+from .models import User,Usuario,Niveles,Entrenado
+from datetime import date
 
 class UsuarioSignUpForm(UserCreationForm):
     
@@ -54,5 +54,14 @@ class UsuarioSignUpForm(UserCreationForm):
             direccion = self.cleaned_data.get('direccion'),
             descripcion = self.cleaned_data.get('descripcion'),
         )
+        today = date.today()
+        print("Today fomr ",today)
+        print("Guardando desde fomr")
+        b = Entrenado(
+                id_usuario = user,
+                fecha = today,
+                entrenado = False)
+                
+        b.save()
 
         return user

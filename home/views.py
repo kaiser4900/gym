@@ -14,12 +14,19 @@ from django.shortcuts import render, resolve_url
 from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth.views import LoginView
+from django.urls.base import reverse_lazy
 from django.views.generic.base import View
 from .forms import UsuarioSignUpForm
 from .models import User
 from django.views.generic import CreateView, ListView, View, UpdateView
 import json
+from datetime import date
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Niveles, Usuario, Entrenado
 
+from PIL import Image
+
+#LoginRequiredMixin
 
 class LoginUser(LoginView):
     template_name = "login.html"
@@ -52,16 +59,38 @@ class UserUpdate(UpdateView):
 
 
 class ListUser(ListView):
-  model = User
-  template_name = "list_user.html"
+    model = User
+    template_name = "list_user.html"
 
+    def get(self,request,*args,**kwargs):
+        users = list(User.objects.all())
+        today = date.today()
 
+        
+       
+        topics = Entrenado.objects.filter(fecha = today)
 
-from .models import Niveles, Usuario, Entrenado
+        print("tamanio",len(list(topics)))
 
-from PIL import Image
+        if len(list(topics)) == 0:
+            for i in users: 
+                print("Creando usuario desde list")
+                print(i)
+                b = Entrenado(
+                id_usuario = i,
+                fecha = today,
+                entrenado = False)
+                
+                b.save()
+        entrenado = Entrenado.objects.filter(fecha=today, entrenado = False)
 
-from datetime import date, datetime
+        self.object_list = []
+        for i in entrenado:
+            self.object_list.append(i.id_usuario)
+        
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
 
 def page_user(request):
     return render(request,"page-user.html")
@@ -71,11 +100,11 @@ def page_user(request):
 def now_training(request):
     if request.method == "POST":
         today = date.today()
-        topics = Usuario.objects.get(nombres = request.POST["nombres"], apellidos = request.POST["apellidos"])
-        change = Entrenado.objects.get(id = topics.id)
-        change.entrenado = 1
+        topics = User.objects.get(first_name = request.POST["nombres"], last_name = request.POST["apellidos"])
+        change = Entrenado.objects.get(id_usuario = topics)
+        change.entrenado = True
         change.save(update_fields=['entrenado'])
-        return render(request,"list_user.html")
+    return JsonResponse({'msg':'Okey'})
         
 def page_403(request):
     return render(request,"page-403.html")
@@ -127,9 +156,9 @@ def get_topics_ajax(request):
 def wizard_register_trainer(request):
     return render(request,"wizard_register_trainer.html")
 
-@login_required(login_url="/login/")
+
 def new_day(request):
-    users = list(Usuario.objects.values())
+    users = list(User.objects.values())
     today = date.today()
 
     try:
@@ -137,10 +166,12 @@ def new_day(request):
         return render(request,"page-500.html")
     except:
         for i in users:
+            
             b = Entrenado(
             id = i['id'],
             fecha = today,
             entrenado = False)
+
             b.save()
 
 
