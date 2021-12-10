@@ -31,11 +31,22 @@
                       <th>Apellido</th>
                       <th>DNI</th>
                       <th>Peso</th>
+                      <th>Actions</th>  
+                     
                       
                     </tr>
                   </thead>
                   <tbody>
-                   
+                    {% for object in object_list %}
+                    <tr id="{{ object.id }}tr">
+                      <th> IMAGEN</th>
+                      <th>{{ object.first_name }}</th>
+                      <th>{{ object.last_name }}}</th>
+                      <th>{{ object.dni }}</th>
+                      <th>{{ object.peso }}</th> 
+                      <th> <button onclick='deleteUser("{{ object.id }}")'>Delete</button> <button onclick='updateUser("{{ object.id }}")'>Update</button> </th>                     
+                    </tr>
+                    {% endfor %}
                   </tbody>
                   <tfoot>
                     <tr>
@@ -43,8 +54,10 @@
                       <th>Nombre</th>
                       <th>Apellido</th>
                       <th>DNI</th>
-                      <th>Peso</th>                      
+                      <th>Peso</th>
+                      <th>Actions</th>                      
                     </tr>
+                   
                   </tfoot>
                 </table>
               </div>
@@ -156,7 +169,58 @@
   <script src="../../assets/js/plugins/bootstrap-tagsinput.js"></script>
   <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
   <script src="../../assets/js/plugins/jasny-bootstrap.min.js"></script>
+<script>
+   function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            let cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
+  
+  function deleteUser(id){
+    const idTr = ""+id+"tr";
+    const trRow = document.getElementById(idTr);
+    const csrftoken = getCookie('csrftoken');
+    let url = "/pedidos/agregar/";1
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({pk: id}),
+      headers:{
+        "X-CSRFToken": csrftoken,
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(
+      function(response) {
+        return response.json()
+      }
+    ).then(
+      function(data) {
+        array_data = data.msg;
+        if(array_data == "OK"){
+          padre = trRow.parentNode;
+		      padre.removeChild(trRow);
+        };
+      }
+    )
+  };
 
+  function updateUser(id){
+    location.href= "/home/user/update/" + id;
+    
+  }
+
+
+</script>
 
   <script>
     window.dataLayer = window.dataLayer || [];

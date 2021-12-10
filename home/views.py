@@ -17,7 +17,7 @@ from django.contrib.auth.views import LoginView
 from django.views.generic.base import View
 from .forms import UsuarioSignUpForm
 from .models import User
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, View, UpdateView
 
 
 class LoginUser(LoginView):
@@ -31,6 +31,28 @@ class RegisterUser(CreateView):
     form_class = UsuarioSignUpForm
     template_name = "register_user.html"
     success_url = "/login/"
+
+class UserDelete(View):
+    http_method_names = ['get', 'post', 'head', 'options']
+
+    def post(self, request, *args, **kwargs):
+        post_data = json.loads(request.body.decode("utf-8"))
+        pk = post_data['pk']
+        if pk:
+            user = User.objects.filter(id=pk)
+            user.delete()
+        return JsonResponse({'msg': 'OK'})
+
+class UserUpdate(UpdateView):
+  model = User
+  fields = ('__all__')
+  template_name = "update-user.html"
+  success_url = '/'
+
+class ListUser(ListView):
+  model = User
+  template_name = "list_user.html"
+
 
 
 from .models import Niveles, Usuario, Entrenado
@@ -51,6 +73,14 @@ def now_training(request):
         change.save(update_fields=['entrenado'])
         return render(request,"list_user.html")
         
+def page_403(request):
+    return render(request,"page_403.html")
+
+def page_404(request):
+    return render(request,"page_404.html")
+
+def page_405(request):
+    return render(request,"page_405.html")
 
 def training(request):
     return render(request,"training.html")

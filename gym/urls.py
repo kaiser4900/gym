@@ -15,8 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from home.views import get_topics_ajax,test_ag
-from home.views import LoginUser, RegisterUser
+from home.views import get_topics_ajax,test_ag, LoginUser, RegisterUser, page_403, page_404, page_405
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -26,6 +25,12 @@ urlpatterns = [
 
     path('login/', LoginUser.as_view(), name='LoginUser'),
     path('register_user/', RegisterUser.as_view(), name="RegisterUser"),
+
+
+    path('page_403/', page_403, name="page_403"),
+    path('page_404/', page_404, name="page_404"),
+    path('page_500/', page_500, name="page_500"),
+
 
     path('polls/', include('polls.urls')),
     path('get_topics_ajax/', get_topics_ajax, name="get_topics_ajax"),
