@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from home.views import get_topics_ajax,test_ag, LoginUser, RegisterUser, page_403, page_404, page_405
+from home.views import get_topics_ajax,test_ag, LoginUser, RegisterUser, page_403, page_404, page_500
 from django.contrib.auth.views import LogoutView
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     
@@ -36,4 +38,4 @@ urlpatterns = [
     path('get_topics_ajax/', get_topics_ajax, name="get_topics_ajax"),
     path('test_ag/', test_ag, name="test_ag"),
     path('admin/', admin.site.urls),
-]
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

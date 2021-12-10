@@ -22,6 +22,8 @@
           <div class="collapse navbar-collapse" id="navigation">
 
             <ul class="navbar-nav ml-auto">
+              {% if request.user.is_authenticated %}
+              
             
               <li class="search-bar input-group">
                 <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"><i class="tim-icons icon-zoom-split" ></i>
@@ -40,7 +42,7 @@
               <li class="dropdown nav-item">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                   <div class="photo">
-                    <img src="{{ user.image }}" alt="Profile Photo">
+                    <img src="{{ user.image.url }}" alt="Profile Photo">
                     
                   </div>
                   <b class="caret d-none d-lg-block d-xl-block"></b>
@@ -53,7 +55,7 @@
                 </ul>
               </li>
               <li class="separator d-lg-none"></li>
-
+              {% endif %}
           
             </ul>
 

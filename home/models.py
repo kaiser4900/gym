@@ -15,7 +15,7 @@ class User(AbstractUser):
     level = models.ForeignKey(Niveles,on_delete=models.DO_NOTHING)
     dni = models.PositiveIntegerField()
     email = models.EmailField()
-    image = models.ImageField(null=False, upload_to='static/assets/img/profile/')
+    image = models.ImageField(null=False, upload_to='img/users')
     isAdmin = models.BooleanField(default=False)
 
 class Normal_Admin(models.Model):

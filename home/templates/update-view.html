@@ -1,5 +1,120 @@
-<form action = "." method = "post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value=Save">
-</form>
+{% extends "layouts/base.html" %}
+
+{% block title %} level {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<div class="content">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <form role="form" enctype="multipart/form-data" method="POST" action=".">{% csrf_token%}
+          
+          <div class="card-header">
+            <h5 class="title">Perfil</h5>
+          </div>
+          <div class="card-body">
+
+
+           
+              <div class="row">
+
+                  
+
+                <div class="col-md-6 pr-md-1">
+                  <div class="form-group">
+                    <label>Nombre de usuario</label>
+                    {{ form.username }}
+
+                  </div>
+                </div>
+
+
+
+                <div class="col-md-6 pl-md-1">
+                  <div class="form-group">
+                    <label>Correo electrónico</label>
+                    {{ form.email }}
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-6 pr-md-1">
+                  <div class="form-group">
+                    <label>Nombres</label>
+                    {{ form.first_name }}
+
+                  </div>
+                </div>
+                <div class="col-md-6 pl-md-1">
+                  <div class="form-group">
+                    <label>Apellidos</label>
+                    {{ form.last_name }}
+                  </div>
+                </div>
+              </div>
+
+
+
+
+              
+              <div class="row">
+ 
+
+
+                <div class="col-md-4 ">
+                  <p>Nivel: 
+                  {{ form.level }}
+
+                </div>
+              </div>
+            
+          </div>
+          <div class="card-footer">
+            <button type="submit"  class="btn btn-fill btn-primary">Registrar</button>
+            &nbsp; &nbsp;
+          </div>
+
+          {{ form.errors }}
+        
+        </div>
+      </div>
+
+
+
+      <div class="col-md-4">
+        <div class="card card-user">
+          
+          <div class="col-md-auto col-sm-auto">
+            <h4 class="card-title">Seleccione su imagen</h4>
+              <div>
+                <span class="btn btn-round btn-rose btn-file">
+                  <span type="button"class="fileinput-new">Add Photo</span>
+                  {{ form.image}}
+                </span>
+                <br>
+                <div class="col-md-6 ml-auto mr-auto">
+                  <a href="http://127.0.0.1:8000/register_user/" class="btn btn-danger btn-round " data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                </div>
+              </div>
+          </div>
+        </form>
+          </div>
+
+
+
+
+        </div>
+      </div>
+
+
+      
+  </div>
+
+{% endblock content %}

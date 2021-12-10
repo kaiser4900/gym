@@ -25,11 +25,13 @@
                     <div class="row">
                         <div class="col-md-6 ml-auto mr-auto">
                           <div class="form-group">
-                            <label>Nombre</label>
+                            <label>Nombre de usuario </label>
                             
                             {{ form.username }}
-                            <label>Apellido</label>
-                            
+                            <br>
+                            <br>
+                            <label>Contraseña</label>
+                            <br>
                             {{ form.password}}
 
                           </div>
@@ -41,6 +43,7 @@
                     <div class="col-md-6 ml-auto mr-auto">
                         <button type="submit" name="register" class="col-md-12  btn btn-fill btn-primary">Login</button>
                         &nbsp; &nbsp;
+                        ¿No tienes una cuenta? <a href="/register_user/" class="text-primary">Registrate</a>
                     </div>
                 </div>
 

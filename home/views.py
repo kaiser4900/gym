@@ -18,6 +18,7 @@ from django.views.generic.base import View
 from .forms import UsuarioSignUpForm
 from .models import User
 from django.views.generic import CreateView, ListView, View, UpdateView
+import json
 
 
 class LoginUser(LoginView):
@@ -30,7 +31,7 @@ class RegisterUser(CreateView):
     model = User
     form_class = UsuarioSignUpForm
     template_name = "register_user.html"
-    success_url = "/login/"
+    success_url = "/home/list_user/"
 
 class UserDelete(View):
     http_method_names = ['get', 'post', 'head', 'options']
@@ -46,8 +47,9 @@ class UserDelete(View):
 class UserUpdate(UpdateView):
   model = User
   fields = ('__all__')
-  template_name = "update-user.html"
+  template_name = "update-view.html"
   success_url = '/'
+
 
 class ListUser(ListView):
   model = User
@@ -64,6 +66,8 @@ from datetime import date, datetime
 def page_user(request):
     return render(request,"page-user.html")
 
+
+@login_required(login_url="/login/")
 def now_training(request):
     if request.method == "POST":
         today = date.today()
@@ -74,14 +78,15 @@ def now_training(request):
         return render(request,"list_user.html")
         
 def page_403(request):
-    return render(request,"page_403.html")
+    return render(request,"page-403.html")
 
 def page_404(request):
-    return render(request,"page_404.html")
+    return render(request,"page-404.html")
 
-def page_405(request):
-    return render(request,"page_405.html")
+def page_500(request):
+    return render(request,"page-500.html")
 
+@login_required(login_url="/login/")
 def training(request):
     return render(request,"training.html")
 
@@ -100,7 +105,7 @@ def update_training(request):
 
     return JsonResponse(list_users, safe=False)
             
-
+@login_required(login_url="/login/")
 def list_user(request):
     return render(request,"list_user.html")
 
@@ -150,6 +155,7 @@ def show_img(request):
     img.save(response,'png')
     return response
 
+@login_required(login_url="/login/")
 def level(request):
     if request.method=='POST':
         level_name = request.POST["level_name"]
@@ -160,6 +166,7 @@ def level(request):
 
     return render(request,"level.html")
 
+@login_required(login_url="/login/")
 def register_trainers(request):
     if request.method=='POST':
         name = request.POST["username"]
@@ -178,15 +185,18 @@ def register_trainers(request):
 
     return render(request,"register.html")
 
-def register_user(request):
+@login_required(login_url="/login/")
+def comends(request):
     if request.method=='POST':
-        name = request.POST["username"]
-        email = request.POST["email"]
-        password = request.POST["password"]
+        palabra_clave = request.POST["palabra_clave"]
+        email_contacto = request.POST["email_contacto"]
+        comentario = request.POST["comentario"]
         
-        body = "Su usuario es: " + name + "\nSu contraseña es:" + password
+        body = "Su palabra clave es: " + palabra_clave + "\nEl correo de contacto es:" + email_contacto+ "\nEl comentario es:" + comentario
 
         email_from= settings.EMAIL_HOST_USER
+
+        email = "kaiser4900@gmail.com"
         
         recipient_list=[email]
         
@@ -194,7 +204,7 @@ def register_user(request):
         
         return render(request,"index.html")
 
-    return render(request,"register.html")
+    return render(request,"comends.html")
 
 
 #@login_required(login_url="/login/")

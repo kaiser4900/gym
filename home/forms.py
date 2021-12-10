@@ -21,11 +21,18 @@ class UsuarioSignUpForm(UserCreationForm):
     altura        = forms.FloatField(required=True, widget= forms.NumberInput(attrs={'class':"form-control"}))
     direccion     = forms.CharField(required=True, widget= forms.TextInput(attrs={'class':"form-control"}))
     descripcion   = forms.CharField(widget= forms.Textarea(attrs={'class':"form-control"}))
+    password1 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class':'form-control','type':'password', 'name': 'password1','placeholder':'Password'}),
+    label='')
+
+    password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class':'form-control','type':'password', 'name': 'password2','placeholder':'Password'}),
+    label='')
 
     class Meta(UserCreationForm.Meta):
         model = User
         widgets = {
-            "username": widgets.TextInput(attrs={'class':"form-control"})
+            "username": widgets.TextInput(attrs={'class':"form-control"}),
         }
 
     @transaction.atomic
