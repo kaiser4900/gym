@@ -1,17 +1,22 @@
+
 from django.urls import path
-from django.urls import path
-from .views import index,register_user, show_img, register_trainers, level, profile,wizard_register_trainer, list_user,update_training,training,now_training,new_day
+from .views import index,register_user, show_img, register_trainers, level,wizard_register_trainer, list_user,update_training,training,now_training,new_day
+from django.urls import include
 
 app_name = "home"
 
 urlpatterns = [
     path('index/', index, name='index'),
+
+
     path('new_day/', new_day, name='new_day'),
     path('now_training/', now_training, name='now_training'),
     path('training/', training, name='training'),
     path('wizard_register_trainer/', wizard_register_trainer, name='wizard_register_trainer'),
-    path('profile/', profile, name='profile'),
     path('register/', register_user, name="register"),
+
+    
+    
     path('register_trainers/', register_trainers, name="register_trainers"),
     path('level/', level, name="level"),
     path('list_user/', list_user, name="list_user"),

@@ -16,9 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from home.views import get_topics_ajax,test_ag
+from home.views import LoginUser, RegisterUser
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
+    
     path('home/', include('home.urls')),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('login/', LoginUser.as_view(), name='LoginUser'),
+    path('register_user/', RegisterUser.as_view(), name="RegisterUser"),
+
     path('polls/', include('polls.urls')),
     path('get_topics_ajax/', get_topics_ajax, name="get_topics_ajax"),
     path('test_ag/', test_ag, name="test_ag"),

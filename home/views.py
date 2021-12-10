@@ -4,19 +4,43 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from django import template
+from django import urls
 from django.contrib.auth.decorators import login_required
+from django.db import models
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
-from django.shortcuts import render
+from django.shortcuts import render, resolve_url
 from django.conf import settings
 from django.core.mail import send_mail
+from django.contrib.auth.views import LoginView
+from django.views.generic.base import View
+from .forms import UsuarioSignUpForm
+from .models import User
+from django.views.generic import CreateView
+
+
+class LoginUser(LoginView):
+    template_name = "login.html"
+    def get_success_url(self):
+        url = self.get_redirect_url()
+        return url or resolve_url("/home/index")
+
+class RegisterUser(CreateView):
+    model = User
+    form_class = UsuarioSignUpForm
+    template_name = "register_user.html"
+    success_url = "/login/"
+
 
 from .models import Niveles, Usuario, Entrenado
 
 from PIL import Image
 
 from datetime import date, datetime
+
+def page_user(request):
+    return render(request,"page-user.html")
 
 def now_training(request):
     if request.method == "POST":
@@ -31,6 +55,8 @@ def now_training(request):
 def training(request):
     return render(request,"training.html")
 
+
+@login_required(login_url="/login/")
 def update_training(request):
     data = list(Entrenado.objects.values())
     users = list(Usuario.objects.values())
@@ -47,6 +73,7 @@ def update_training(request):
 
 def list_user(request):
     return render(request,"list_user.html")
+
 
 def test_ag(request):
     data = list(Niveles.objects.values())
@@ -65,6 +92,7 @@ def get_topics_ajax(request):
 def wizard_register_trainer(request):
     return render(request,"wizard_register_trainer.html")
 
+@login_required(login_url="/login/")
 def new_day(request):
     users = list(Usuario.objects.values())
     today = date.today()
@@ -83,24 +111,8 @@ def new_day(request):
 
     return render(request,"index.html")
 
-def profile(request):
-    if request.method=='POST':
-        b = Usuario(
-        nombre_usuario = request.POST["user_name"],
-        nombres = request.POST["name"],
-        apellidos = request.POST["last_name"],
-        nivel = request.POST["nivel"],
-        dni = request.POST["number_dni"],
-        peso = request.POST["peso"],
-        altura = request.POST["altura"],
-        correo = request.POST["email"],
-        direccion = request.POST["direction"],
-        descripcion = request.POST["description"],
-        image = request.FILES["img_avatar"]        )
-        b.save()
-        return render(request,"index.html")
-    return render(request,"profile.html")
 
+@login_required(login_url="/login/")
 def show_img(request):
     imagePath = 'static/assets/img/img.jpg'
     response = HttpResponse(content_type ="image/png")
@@ -109,10 +121,10 @@ def show_img(request):
     return response
 
 def level(request):
-    print("HI")
     if request.method=='POST':
         level_name = request.POST["level_name"]
-        b = Niveles(nivel=level_name)
+        description = "Esto es el nivel que posees"
+        b = Niveles(name_nivel=level_name,description = description)
         b.save()
         return render(request,"index.html")
 
