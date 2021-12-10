@@ -1,4 +1,4 @@
-
+1
 from django.urls import path
 from .views import index,register_user, show_img, register_trainers, level, wizard_register_trainer, list_user,update_training,training,now_training,new_day, UserDelete, UserUpdate
 from django.urls import include
